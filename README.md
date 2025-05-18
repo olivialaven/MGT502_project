@@ -28,17 +28,75 @@ Our system predicts which books each user is most likely to enjoy and presents t
 ---
 ## 📊 Exploratory Data Analysis (EDA)
 ### 🗃️ Aquiring our data
-For this assignment, two datasets were provided: one dataset containing basic information about the items (the books) and one dataset containing the training set of the interactions between the users and the items.
+For this assignment, two datasets were provided. The first one, _items_, contains information about the books, such as the book id (helps us link the correct item to the one a user interacted with), title, author, ISBN, publisher, and some subjects. The books are in French. The second dataset, _interactions_, contains the known interactions between the users and the items, as well as a timestamp (when the interaction occurred). This _interactions_ dataset is the training part of a larger dataset; the test part is what our recommendations are compared to on the leaderboard.
 
-As a part of the assignment, we also wanted to add more metadata to the items using Google Books and ISBNdb API calls.  These API calls added valuable information such as:
+Based on a first look of our datasets, we have:
+- Total users = 7,838
+- Total books (including books no one has interacted with) = 15,291
+- Number of interactions = 87,047
+- Items no user has interacted with = 182
+  
+### Checking for duplicates
+It is possible that a user has interacted with the same item multiple times. However, given that there is a timestamp for each user's interaction with an item, we can see if there are any duplicates since only one interaction should be registered for one instance of an interaction. There should also not be any duplicates in the _items_ dataset.
+
+To test this, we run the following:
+```python
+# Checking duplicates in the interactions and items datasets
+interaction_duplicates = interactions.duplicated().sum()
+items_duplicates = items.duplicated().sum()
+print(f'Interaction data duplicates = {interaction_duplicates}, Item data duplicates = {items_duplicates}')
+```
+The results show that we have two (2) duplicates in _interactions_; no duplicates in _items_. We handled these duplicates by dropping the second appearance of the interaction (same user, item, and timestamp).
+
+### Checking missing values
+To understand the coverage of our data, we decided to check how many missing values we have in each column of the two datasets. The results showed that the _interactions_ dataframe is complete and has no missing values. The _items_ dataframe, however, has quite a few missing values:
+
+| Feature       | Missing Values |
+|---------------|----------------|
+| Title         | 0              |
+| Author        | 2,653          |
+| ISBN Valid    | 723            |
+| Publisher     | 25             |
+| Subjects      | 2,223          |
+| i             | 0              |
+
+This limited amount of data could limit our possibilities to create a more precise recommender system. One way to address this issue is to use API calls to retrieve more metadata. Therefore, we used Google Books and ISBNdb API calls to try to fill some missing values, as well as adding more information about the items. These API calls added valuable information such as:
 
   - filling in missing Authors
-  - book cover images
-  - description/summaries
-  - book dimensions
-  - published date
+  - adding book cover images
+  - adding description/summaries
+  - adding book dimensions
+  - adding publication date
 
-...and so on. This additional data improved our embedding quality and recommendation relevance. Although this is already getting ahead of ourselves, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a seperate file, which can be found ***here***. Instead, we will now start from importing the complete items dataframe (including all metadata from the API calls), and the interactions dataframe:
+...and so on. This additional data was used to later improve our embedding quality and, as a result, recommendation relevance. Although we are getting ahead of ourselves with this, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a seperate file. The code for this can be found ***here***. Addimg the information from the API calls reduced, for example, the number of missing authors from 2,653 to only 789.
+
+One last point on missing values: we wanted to check if there were any items that were lacking data in almost every column. Sorting based on the features in the table above, we found that there were four books with no other information than the title and book id. There were id's 1345, 9460, 11744, and 14378. Although we decided to keep this in the dataset, as they 
+
+
+
+
+
+
+
+
+
+
+
+
+Below is a breakdown of the dataframe containing the interactions:
+- Total users: ...
+- Total books: ...
+- Sparsity of interaction matrix: ...
+- Average number of books per user: ...
+- Long tail distribution of books: ...
+
+#### Book Metadata
+- Metadata fields: Title, Author, Subjects, Language, etc.
+- Most common subjects: ...
+- Distribution of languages: ...
+- Missing data: ...
+
+Instead, we will now start from importing the complete items dataframe (including all metadata from the API calls), and the interactions dataframe:
 
 ```python
 # Load the datasets
@@ -61,7 +119,7 @@ display(items.head(0))
 ```text
 Title	Author	ISBN Valid	Publisher	Subjects	i	description	mainCategory	publisher	synopsis	...	date_published	subjects	isbn13	msrp	binding	isbn	isbn10	edition	related	dewey_decimal
 ```
-The resulting 
+The resulting  
 
 
 

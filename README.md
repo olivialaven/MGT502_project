@@ -28,7 +28,43 @@ Our system predicts which books each user is most likely to enjoy and presents t
 ---
 ## 📊 Exploratory Data Analysis (EDA)
 ### 🗃️ Aquiring our data
-For this assignment, two datasets were provided: one dataset containing basic information about the items (the books) and one dataset containing the interactions between the users and the items. First, we need to download
+For this assignment, two datasets were provided: one dataset containing basic information about the items (the books) and one dataset containing the training set of the interactions between the users and the items.
+
+As a part of the assignment, we also wanted to add more metadata to the items using Google Books and ISBNdb API calls.  These API calls added valuable information such as:
+
+  - filling in missing Authors
+  - book cover images
+  - description/summaries
+  - book dimensions
+  - published date
+
+...and so on. This additional data improved our embedding quality and recommendation relevance. Although this is already getting ahead of ourselves, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a seperate file, which can be found ***here***. Instead, we will now start from importing the complete items dataframe (including all metadata from the API calls), and the interactions dataframe:
+
+```python
+# Load the datasets
+interactions = pd.read_csv('https://raw.githubusercontent.com/olivialaven/MGT502_project/refs/heads/main/interactions_train.csv')
+display(interactions.head())
+```
+```text
+index    u	i	t
+0	4456	8581	1.687541e+09
+1	142	1964	1.679585e+09
+2	362	3705	1.706872e+09
+3	1809	11317	1.673533e+09
+4	4384	1323	1.681402e+09
+```
+```python
+items = pd.read_csv("https://raw.githubusercontent.com/olivialaven/MGT502_project/refs/heads/main/merged_items.csv")
+# Display only columns due to that there is a lot of data
+display(items.head(0))
+```
+```text
+Title	Author	ISBN Valid	Publisher	Subjects	i	description	mainCategory	publisher	synopsis	...	date_published	subjects	isbn13	msrp	binding	isbn	isbn10	edition	related	dewey_decimal
+```
+The resulting 
+
+
+
 
 
 

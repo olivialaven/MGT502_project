@@ -1,4 +1,5 @@
 # Building a Book Recommendation Systems for Library Users
+![Library Overview](images/library_overview.png)
 
 ## 🧠 Overview
 

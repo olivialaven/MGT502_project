@@ -231,7 +231,7 @@ This additional data improved our embedding quality and recommendation relevance
 ## 💡 Interface (Streamlit App)
 
 You can try our recommendation system with a simple UI here:  
-👉 [Try the App](LINK_TO_YOUR_STREAMLIT_APP)
+👉 [Try the App](https://booksmt.streamlit.app)
 
 - Input a user ID
 - See top-10 book recommendations (with covers!)

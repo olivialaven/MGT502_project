@@ -233,12 +233,14 @@ This additional data improved our embedding quality and recommendation relevance
 You can try our recommendation system with a simple UI here:  
 👉 [Try the App](https://booksmt.streamlit.app)
 
-username: olivialaven or danieldieckmann
-password: welovevlachos
+Username: olivialaven or danieldieckmann, password: welovevlachos
 
-- Input a user ID
-- See top-10 book recommendations (with covers!)
+- Input a username and password
+- See top-t book recommendations (with covers!) for that user
 - Includes a fallback recommendation list if the user is new
+- Shows the top 5 most popular books
+- Shows the top 5 most recent books
+- Has a search functionality if you are looking a specific book
 
 ![Screenshot](results/ui_screenshot.png)
 

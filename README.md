@@ -166,23 +166,32 @@ We evaluated our models using **Precision@10**, with the goal of achieving a lea
 
 ## 🛠️ Models and Methods
 
-### 1. User-User Collaborative Filtering
-- Similarity metric: Cosine
-- Top-k neighbors: ...
-- Tuned hyperparameters: ...
-- Pros/Cons: ...
+### 1. Collaborative Filtering ([see code section: `Collaborative Filtering`](XXX))
 
-### 2. Item-Item Collaborative Filtering
-- Similarity metric: ...
-- Tuned hyperparameters: ...
+#### 1.1 User-to-User (u2u)
+- Recommends items to a user based on the preferences of similar users.
+- Uses **cosine similarity** as the similarity metric.
+- Initially implemented as a baseline model with default parameters.
+- We later tuned the number of neighbors (**k**) for similarity calculation, which improved precision.
+- Interestingly, in our hybrid models, the **untuned version** of user-user performed better than the tuned version, likely due to better complementarity with other components.
 
-### 3. Other Techniques
-- **TF-IDF + Cosine Similarity**
-- **BERT-based embeddings (e.g., `all-MiniLM`)**
-- **Hybrid model**: Weighted ensemble of user-user, item-item, and content-based
-- **Neural recommender (optional)**: Briefly describe if used
+#### 1.2 Item-to-Item (i2i)
+- Recommends items similar to those a user has already interacted with, based on shared interaction patterns across users.
+- Also uses **cosine similarity** as the similarity metric.
+- Started with a baseline model without tuning.
+- Tuning the number of neighbors improved standalone precision.
+- However, hybrid models that incorporated the **untuned** i2i variant performed better overall, suggesting that simpler configurations may generalize better in ensemble settings.
 
----
+### 2. Content-Based Recommendations ([see code section: `Content-Based`](XXX))
+- Utilizes item metadata and textual features (e.g., descriptions) to compute similarity between items.
+- Employs **TF-IDF vectorization** and **OpenAI embeddings** to represent item content.
+- Uses **cosine similarity** to match items to user preferences.
+
+### 3. Hybrid Models ([see code section: `Hybrid`](XXX))
+- Combines predictions from **user-user**, **item-item**, and **content-based** models.
+- Uses a **weighted ensemble** approach to balance contributions from each component.
+- Hybrid models consistently outperformed individual models, demonstrating the value of blending collaborative and content signals.
+  
 
 ## 🧪 Evaluation Results
 

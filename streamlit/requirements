@@ -1,1 +1,7 @@
-
+streamlit
+pandas
+plotly
+matplotlib
+numpy
+rapidfuzz
+Pillow>=8.0.0

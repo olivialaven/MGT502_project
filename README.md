@@ -6,7 +6,7 @@
 
 Ever wandered through a library, overwhelmed by the sheer number of books, wondering what to read next? Now imagine the library knows you so well, it can whisper, *“You might also like…”* just like your favorite streaming platform. That's exactly what this project aims to do.
 
-We tried to build a smart recommendation system for the university’s library platform to help students and staff discover books they’ll actually want to read—based on what books they’ve interacted with before, what others like them are reading, and even the hidden magic tucked inside book metadata.
+We tried to build a smart recommendation system for the university’s library platform to help students and staff discover books they’ll actually want to read-based on what books they’ve interacted with before, what others like them are reading, and even the hidden magic tucked inside book metadata.
 
 Our system predicts which books each user is most likely to enjoy and presents the **Top 10 personalized recommendations**. We used a mix of techniques like collaborative filtering and text embeddings to make these suggestions as accurate and interesting as possible.
 
@@ -27,7 +27,7 @@ Our system predicts which books each user is most likely to enjoy and presents t
 
 ---
 ## 📊 Exploratory Data Analysis (EDA)
-### 🗃️ Aquiring our data
+### Aquiring our data
 For this assignment, two datasets were provided. The first one, _items_, contains information about the books, such as the book id (helps us link the correct item to the one a user interacted with), title, author, ISBN, publisher, and some subjects. The books are in French. The second dataset, _interactions_, contains the known interactions between the users and the items, as well as a timestamp (when the interaction occurred). This _interactions_ dataset is the training part of a larger dataset; the test part is what our recommendations are compared to on the leaderboard.
 
 Based on a first look of our datasets, we have:
@@ -70,7 +70,15 @@ This limited amount of data could limit our possibilities to create a more preci
 
 ...and so on. This additional data was used to later improve our embedding quality and, as a result, recommendation relevance. Although we are getting ahead of ourselves with this, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a seperate file. The code for this can be found ***here***. Addimg the information from the API calls reduced, for example, the number of missing authors from 2,653 to only 789.
 
-One last point on missing values: we wanted to check if there were any items that were lacking data in almost every column. Sorting based on the features in the table above, we found that there were four books with no other information than the title and book id. There were id's 1345, 9460, 11744, and 14378. Although we decided to keep this in the dataset, as they 
+### Visualizing the data
+
+#### 
+
+
+
+
+
+
 
 
 

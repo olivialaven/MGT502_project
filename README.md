@@ -233,6 +233,9 @@ This additional data improved our embedding quality and recommendation relevance
 You can try our recommendation system with a simple UI here:  
 👉 [Try the App](https://booksmt.streamlit.app)
 
+username: olivialaven or danieldieckmann
+password: welovevlachos
+
 - Input a user ID
 - See top-10 book recommendations (with covers!)
 - Includes a fallback recommendation list if the user is new

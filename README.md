@@ -72,126 +72,64 @@ This limited amount of data could limit our possibilities to create a more preci
 
 ### Visualizing the data
 
-#### 
+#### Books with the most interactions
 
+![Library Overview](images/top_10_books.png)
 
+The graph above shows that there are some books that seem to be a lot more popular than others. This makes us hypothesize that there will be some users that are similar to each other, so we have some base to use for our collaborative filtering models later.
 
+#### User behaviors
 
+We also noted that a lot of users have very few interactions. For example, 3,737 users (about 48% of all users) have only interacted with 5 or fewer books. 2,445 user have only interacted with 3 items. This means that in our test/train split (using a 80/20 ratio) will mean that we only have two observations in the training dataset that is used for the predictions. In this case, there is also only one "rigth" answer. This is a limitation we will come back to later.
 
+Additionally, we noted that a lot of users have interacted with an item multiple times. There are about 3000 occurances in the dataframe where a user has interacted with the same item twice. There is even an occurance of a user interacting with the same item 60 times. There are also occurances in between these numbers (2-60 interactions for the same item by a user).
 
+### Time to build the models!
 
-
-
-
-
-
-
-
-
-
-
-
-Below is a breakdown of the dataframe containing the interactions:
-- Total users: ...
-- Total books: ...
-- Sparsity of interaction matrix: ...
-- Average number of books per user: ...
-- Long tail distribution of books: ...
-
-#### Book Metadata
-- Metadata fields: Title, Author, Subjects, Language, etc.
-- Most common subjects: ...
-- Distribution of languages: ...
-- Missing data: ...
-
-Instead, we will now start from importing the complete items dataframe (including all metadata from the API calls), and the interactions dataframe:
-
-```python
-# Load the datasets
-interactions = pd.read_csv('https://raw.githubusercontent.com/olivialaven/MGT502_project/refs/heads/main/interactions_train.csv')
-display(interactions.head())
-```
-```text
-index    u	i	t
-0	4456	8581	1.687541e+09
-1	142	1964	1.679585e+09
-2	362	3705	1.706872e+09
-3	1809	11317	1.673533e+09
-4	4384	1323	1.681402e+09
-```
-```python
-items = pd.read_csv("https://raw.githubusercontent.com/olivialaven/MGT502_project/refs/heads/main/merged_items.csv")
-# Display only columns due to that there is a lot of data
-display(items.head(0))
-```
-```text
-Title	Author	ISBN Valid	Publisher	Subjects	i	description	mainCategory	publisher	synopsis	...	date_published	subjects	isbn13	msrp	binding	isbn	isbn10	edition	related	dewey_decimal
-```
-The resulting  
-
-
-
-
-
-
-📚
-
-# 📚 University Library Recommender System
-
-## 🧠 Overview
-This project builds a recommendation system to enhance the university library platform by helping students and members discover books aligned with their interests. The system predicts books users might like, based on historical book rental data, and displays the top-10 recommendations for each user.
-
-We evaluated our models using **Precision@10**, with the goal of achieving a leaderboard score higher than 0.1452.
+We are now at the end of our exploratory data analysis. We will now use our complete and cleaned dataset to build a recommendation system!
 
 ---
-
-## 🔍 Exploratory Data Analysis (EDA)
-
-### Interaction Data
-- Total users: ...
-- Total books: ...
-- Sparsity of interaction matrix: ...
-- Average number of books per user: ...
-- Long tail distribution of books: ...
-
-### Book Metadata
-- Metadata fields: Title, Author, Subjects, Language, etc.
-- Most common subjects: ...
-- Distribution of languages: ...
-- Missing data: ...
-
-(→ Insert some plots or upload them in `/results` and embed them here)
-
----
-
 ## 🛠️ Models and Methods
+
+For this project, we have explored both collaborative filtering (CF), content-based recommendations, and a mix between the two. Within the CF models, we have the option to focus on either User-to-User or Item-to-Item. The content-based recommendations models consists of TF-IDF vectorization and OpenAI embeddings. To evaluate and compare these models, we have used 80% of the interactions per user as our training data which we will train the model on. Then, the resulting recommendations we be compared to the "ground truth" - the remaining 20% of the interactions per user. These 20% are our test set. The metrics used are: 1) the mean average precision of the 10 recommendations for each user (MAP@10), and 2) mean average recall of the 10 recommendations for each user (MAR@10).
+
+We will now explore each of these in more detail.
 
 ### 1. Collaborative Filtering ([see code section: `Collaborative Filtering`](XXX))
 
 #### 1.1 User-to-User (u2u)
-- Recommends items to a user based on the preferences of similar users.
-- Uses **cosine similarity** as the similarity metric.
-- Initially implemented as a baseline model with default parameters.
-- We later tuned the number of neighbors (**k**) for similarity calculation, which improved precision.
-- Interestingly, in our hybrid models, the **untuned version** of user-user performed better than the tuned version, likely due to better complementarity with other components.
+This is a model that recommends items to a user based on the preferences of similar users. It uses **cosine similarity** as the similarity metric, and uses that as a basis for how to rank the preferences in order to recommend 10 items. Initially, we implemented a baseline model with default parameters, which resulted in a MAP@10 of around X.X% and a recall of X.X%. The reason the percision is low is most likely due to the fact that it can not be higher than 10% in most of the cases since there is only 1 "correct" answers in the cases where a user only has interacted with 3 items. If that one item is not captured in our recommendation, the precision is 0. The recall can, however, be higher since if that 1 item is included, the recall would be 100%. This reasoning could explain why the precision is so low, and the recall a lot higher.
+
+To see if we could improve the precision, we tried to tune the number of (**k**) for similarity calculation, with the hypothesis that it would increase the precision. The final k-value our optimization model gave use was XX. This tuning increased the precision on our test-dataset to X.X%. However, given the fact that we have very few observations for a lot of users, we began to wonder whether or not this tuning might have led to overfitting. We will get back to this discussion when we discuss the hybrid models.
 
 #### 1.2 Item-to-Item (i2i)
-- Recommends items similar to those a user has already interacted with, based on shared interaction patterns across users.
-- Also uses **cosine similarity** as the similarity metric.
-- Started with a baseline model without tuning.
-- Tuning the number of neighbors improved standalone precision.
-- However, hybrid models that incorporated the **untuned** i2i variant performed better overall, suggesting that simpler configurations may generalize better in ensemble settings.
+Another technique we explored was the Item-to-Item CF. This model recommends items similar to those a user has already interacted with, based on shared interaction patterns across users, and also uses **cosine similarity** as the similarity metric. The process here was the same as for the User-to-User model, meaning that we started with a baseline model and then experimenting with tuning the number of neighbours used for the similarity calculations.
+
+In the baseline model, the MAP@10 was X.X%, and in the tuned model it was increased to X.X%. We have the same concern here as well, that we might be overfitting our data due to the limited number of observations.
 
 ### 2. Content-Based Recommendations ([see code section: `Content-Based`](XXX))
-- Utilizes item metadata and textual features (e.g., descriptions) to compute similarity between items.
-- Employs **TF-IDF vectorization** and **OpenAI embeddings** to represent item content.
-- Uses **cosine similarity** to match items to user preferences.
+Content-based models utilizes item metadata and textual features (e.g., descriptions) to compute similarity between items. **Cosine similarity** is also used in these cases to match items to user preferences. For this category of techniques, we mainly focused on **TF-IDF vectorization** and **OpenAI embeddings** to represent item contents. Let's first look at them one by one to explain the tunings and results of each.
+
+#### 2.1 TF-IDF vectorization
+For this model, we tuned...
+
+Resulting MAP@10: X.X%
+
+#### 2.2 OpenAI embeddings
+For this model, we combined all the metadata available into one column, except for certain columns like ISBN numbers and links to book cover images. Thes columns do not really add any context, so we decided to leave them out for the embeddings process. The resulting column was then made into a list to make it ready to be used for the embedding generations. 
+
+The final precision and recall using this model was 4.37% and 26.03%, respectively. This is a lower precision and recall than for the other models, but we believe this can still be a powerful tool if it is combined with other models.
 
 ### 3. Hybrid Models ([see code section: `Hybrid`](XXX))
+It is unlikely that one model, on its own, will lead to the best predictions, as the users preferences might be influenced by many different factors. These preferences might not be accurately explained by only one technique. So, the next step in our process is to explore different combinations of the models above. To figure out the most optimal hybrid model, we build a gridsearch function that tests different weights of each model, to find the most optimal relative contribution of each model. 
+
+Combining both the predictions from the **content-based**, and tuned **user-user** and **item-item** models resulted in a precision of X.X, and recall of X.X, which is higher than any other model on its own. However, 
+
 - Combines predictions from **user-user**, **item-item**, and **content-based** models.
 - Uses a **weighted ensemble** approach to balance contributions from each component.
 - Hybrid models consistently outperformed individual models, demonstrating the value of blending collaborative and content signals.
-  
+ 
+However, hybrid models that incorporated the **untuned** i2i and u2u variants performed better overall, suggesting that simpler configurations may generalize better in ensemble settings.
 
 ## 🧪 Evaluation Results
 
@@ -215,25 +153,6 @@ We evaluated our models using **Precision@10**, with the goal of achieving a lea
 - Examples of “bad” recommendations:  
   - User Y → [Book D, Book E, Book F]  
   - Why it’s bad: user prefers fiction, got academic books instead.
-
----
-
-## 🧪 Data Augmentation
-
-We used the **Google Books API** to enrich metadata with:
-- Book cover images
-- Description/summaries
-- Genre/tags
-- Published date
-
-This additional data improved our embedding quality and recommendation relevance.
-
----
-
-## 🎯 Final Leaderboard Score
-
-- Public leaderboard Precision@10: **...**
-- Rank: **...**
 
 ---
 
@@ -263,20 +182,3 @@ In the video, we explain:
 - Our methodology and models
 - Evaluation results
 - A live UI demo
-
----
-
-## 📁 Project Structure
-
-```plaintext
-├── README.md
-├── hybrid_recommender.ipynb      # Full notebook (linked below)
-├── data/
-│   ├── interactions.csv
-│   ├── items_metadata.csv
-│   └── sample_submission.csv
-├── results/
-│   └── precision_plot.png
-├── app/
-│   └── streamlit_app.py
-

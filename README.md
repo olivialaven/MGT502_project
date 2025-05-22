@@ -1,5 +1,5 @@
 # Building a Book Recommendation Systems for Library Users
-![Library Overview](images/front_page.png)
+![Library Overview](images/front_picture.png)
 
 
 ## 🧠 Overview

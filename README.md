@@ -125,9 +125,7 @@ It is unlikely that one model, on its own, will lead to the best predictions, as
 
 Combining both the predictions from the **content-based**, and tuned **user-user** and **item-item** models resulted in a precision of X.X, and recall of X.X, which is higher than any other model on its own. However, 
 
-- Combines predictions from **user-user**, **item-item**, and **content-based** models.
-- Uses a **weighted ensemble** approach to balance contributions from each component.
-- Hybrid models consistently outperformed individual models, demonstrating the value of blending collaborative and content signals.
+- Hybrid models outperformed individual models, demonstrating the value of blending collaborative and content signals.
  
 However, hybrid models that incorporated the **untuned** i2i and u2u variants performed better overall, suggesting that simpler configurations may generalize better in ensemble settings.
 

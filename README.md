@@ -131,10 +131,9 @@ The final precision and recall using this model was 4.37% and 26.03%, respective
 ### 3. Hybrid Models
 It is unlikely that one model, on its own, will lead to the best predictions, as the users preferences might be influenced by many different factors. These preferences might not be accurately explained by only one technique. So, the next step in our process is to explore different combinations of the models above. To figure out the most optimal hybrid model, we build a gridsearch function that tests different weights of each model, to find the most optimal relative contribution of each model. 
 
-Combining both the predictions from the **content-based**, **user-user** and **item-item** models outperformed individual models, demonstrating the value of blending collaborative and content-based evaluations. To our surprise, the using the tuned version of the individual models decreased the precsion of the models, potentially due to overfitting in these stages. Our best hybrid model based on the untuned individual models achieved a precison of 6.50% and a recall of 32.56%, with 28% user-user, 24% item-item, 22% TF-IDF, and 26% OpenAI embeddings (normalized to 0-1 range). 
+Combining both the predictions from the **content-based**, **user-user** and **item-item** models into hybrid models outperformed individual models, demonstrating the value of blending collaborative and content-based evaluations. To our surprise, using the tuned versions of the individual models decreased the precsion of the hybrid models, potentially due to overfitting in these stages. Our best hybrid model based on the untuned individual models achieved a precison of 6.50% and a recall of 32.56%, with 28% user-user, 24% item-item, 22% TF-IDF, and 26% OpenAI embeddings (normalized to 0-1 range). This gave us an overall score of 16.60% precision for the Leadership board (23.05.2025, 20:45), putting us in third place.
 
-
-## 🧪 Evaluation Results
+## 🧪 Results and Overview of the Model Performance
 
 | Model               | Precision@10 | Recall@10 |
 |--------------------|--------------|-----------|
@@ -143,6 +142,9 @@ Combining both the predictions from the **content-based**, **user-user** and **i
 | TF-IDF Similarity (untuned)   |          5.79%    |      29.79%     |
 | OpenAI Embeddings   |        4.37%      |     26.03%      |
 | Hybrid Model   (untuned)      |       6.50%       |   32.56%        |
+
+
+
 
 ---
 

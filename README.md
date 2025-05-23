@@ -1,4 +1,4 @@
-# Building a Book Recommendation Systems for Library Users
+# Building a Book Recommendation System for Library Users
 ![Library Overview](images/front_picture_2.png)
 
 
@@ -6,7 +6,7 @@
 
 Ever wandered through a library, overwhelmed by the sheer number of books, wondering what to read next? Now imagine the library knows you so well, it can whisper, *“You might also like…”* just like your favorite streaming platform. That's exactly what this project aims to do.
 
-We tried to build a smart recommendation system for the university’s library platform to help students and staff discover books they’ll actually want to read-based on what books they’ve interacted with before, what others like them are reading, and even the hidden magic tucked inside book metadata.
+We tried to build a smart recommendation system for the university’s library platform to help students and staff discover books they’ll actually want to read, based on what books they’ve interacted with before, what others like them are reading, and even the hidden magic tucked inside book metadata.
 
 Our system predicts which books each user is most likely to enjoy and presents the **Top 10 personalized recommendations**. We used a mix of techniques like collaborative filtering and text embeddings to make these suggestions as accurate and interesting as possible.
 
@@ -27,7 +27,7 @@ Our system predicts which books each user is most likely to enjoy and presents t
 
 ---
 ## 📊 Exploratory Data Analysis (EDA)
-### Aquiring our data
+### Acquiring our data
 For this assignment, two datasets were provided. The first one, _items_, contains information about the books, such as the book id (helps us link the correct item to the one a user interacted with), title, author, ISBN, publisher, and some subjects. The books are in French. The second dataset, _interactions_, contains the known interactions between the users and the items, as well as a timestamp (when the interaction occurred). This _interactions_ dataset is the training part of a larger dataset; the test part is what our recommendations are compared to on the leaderboard.
 
 Based on a first look of our datasets, we have:
@@ -68,7 +68,7 @@ This limited amount of data could limit our possibilities to create a more preci
   - adding book dimensions
   - adding publication date
 
-...and so on. This additional data was used to later improve our embedding quality and, as a result, recommendation relevance. Although we are getting ahead of ourselves with this, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a seperate file. The code for this can be found [here](./code/API_calls-ipynb). Adding the information from the API calls reduced, for example, the number of missing authors from 2,653 to only 789.
+...and so on. This additional data was used to later improve our embedding quality and, as a result, recommendation relevance. Although we are getting ahead of ourselves with this, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a separate file. The code for this can be found [here](./code/API_calls-ipynb). Adding the information from the API calls reduced, for example, the number of missing authors from 2,653 to only 789.
 
 ### Visualizing the data
 
@@ -82,7 +82,7 @@ The graph above shows that there are some books that seem to be a lot more popul
 
 We also noted that a lot of users have very few interactions. For example, 3,737 users (about 48% of all users) have only interacted with 5 or fewer books. 2,445 user have only interacted with 3 items. This is an interesting observation, which will become relevant for our train/test split later on.
 
-Additionally, we noted that a lot of users have interacted with an item multiple times. There are about 3000 occurances in the dataframe where a user has interacted with the same item twice. There is even an occurance of a user interacting with the same item 60 times. There are also occurances in between these numbers (2-60 interactions for the same item by a user).
+Additionally, we noted that a lot of users have interacted with an item multiple times. There are about 3000 occurences in the dataframe where a user has interacted with the same item twice. There is even an occurence of a user interacting with the same item 60 times. There are also occurences in between these numbers (2-60 interactions for the same item by a user).
 
 ### Time to build the models!
 
@@ -91,7 +91,7 @@ We are now at the end of our exploratory data analysis. We will now use our comp
 ---
 ## 🛠️ Models and Methods ([Find code here](code/recommender_system_models.ipynb))
 
-For this project, we have explored both collaborative filtering (CF), content-based recommendations, and a mix between the two. Within the CF models, we have the option to focus on either User-to-User or Item-to-Item. The content-based recommendations models consists of TF-IDF vectorization and OpenAI embeddings. To evaluate and compare these models, we have used 80% of the interactions per user as our training data which we will train the model on. Then, the resulting recommendations we be compared to the "ground truth" - the remaining 20% of the interactions per user. These 20% are our test set. The metrics used are: 1) the mean average precision of the 10 recommendations for each user (MAP@10), and 2) mean average recall of the 10 recommendations for each user (MAR@10).
+For this project, we have explored both collaborative filtering (CF), content-based recommendations, and a mix between the two. Within the CF models, we have the option to focus on either User-to-User or Item-to-Item. The content-based recommendations models consists of TF-IDF vectorization and OpenAI embeddings. To evaluate and compare these models, we have used 80% of the interactions per user as our training data which we will train the model on. Then, the resulting recommendations will be compared to the "ground truth" - the remaining 20% of the interactions per user. These 20% are our test set. The metrics used are: 1) the mean average precision of the 10 recommendations for each user (MAP@10), and 2) mean average recall of the 10 recommendations for each user (MAR@10).
 
 ### 📐 Train/Test Split Strategy
 
@@ -106,11 +106,11 @@ Given that many users have very few interactions (nearly half have five or fewer
 ### 1. Collaborative Filtering
 
 #### 1.1 User-to-User (u2u)
-This is a model that recommends items to a user based on the preferences of similar users. It uses **cosine similarity** as the similarity metric, and uses that as a basis for how to rank the preferences in order to recommend 10 items. Initially, we implemented a baseline model with default parameters, which resulted in a MAP@10 of around 5.65% and a recall of 29.07%. The reason the percision is low is most likely due to the fact that it can not be higher than 10% in most of the cases since there is only 1 "correct" answers in the cases where a user only has interacted with 3 items. If that one item is not captured in our recommendation, the precision is 0. The recall can, however, be higher since if that 1 item is included, the recall would be 100%. This reasoning could explain why the precision is so low, and the recall a lot higher.
+This is a model that recommends items to a user based on the preferences of similar users. It uses **cosine similarity** as the similarity metric, and uses that as a basis for how to rank the preferences in order to recommend 10 items. Initially, we implemented a baseline model with default parameters, which resulted in a MAP@10 of around 5.65% and a recall of 29.07%. The reason the precisionision is low is most likely due to the fact that it can not be higher than 10% in most of the cases since there is only 1 "correct" answers in the cases where a user only has interacted with 3 items. If that one item is not captured in our recommendation, the precision is 0. The recall can, however, be higher since if that 1 item is included, the recall would be 100%. This reasoning could explain why the precision is so low, and the recall a lot higher.
 
 When submitting these recommendation, we got a precision score of 0.1451 on the leaderboard, meaning that we are right under the threshold. 
 
-To see if we could improve the precision, we tried to tune the number of (**k**) for similarity calculation, with the hypothesis that it would increase the precision. The final k-value our optimization model gave use was 22. This tuning increased the precision on our test-dataset to 5.68%, but reduced the recall to 28.70%. However, given the fact that we have very few observations for a lot of users, we began to wonder whether or not this tuning might have led to overfitting. We will get back to this discussion when we discuss the hybrid models.
+To see if we could improve the precision, we tried to tune the number of (**k**) for similarity calculation, with the hypothesis that it would increase the precision. The final k-value our optimization model gave us 22. This tuning increased the precision on our test-dataset to 5.68%, but reduced the recall to 28.70%. However, given the fact that we have very few observations for a lot of users, we began to wonder whether or not this tuning might have led to overfitting. We will get back to this discussion when we discuss the hybrid models.
 
 #### 1.2 Item-to-Item (i2i)
 Another technique we explored was the Item-to-Item CF. This model recommends items similar to those a user has already interacted with, based on shared interaction patterns across users, and also uses **cosine similarity** as the similarity metric. The process here was the same as for the User-to-User model, meaning that we started with a baseline model and then experimenting with tuning the number of neighbours used for the similarity calculations.
@@ -121,17 +121,17 @@ In the baseline model, the Precision@10 was 5.56% and the recall 26.40%, and in 
 Content-based models utilizes item metadata and textual features (e.g., descriptions) to compute similarity between items. **Cosine similarity** is also used in these cases to match items to user preferences. For this category of techniques, we mainly focused on **TF-IDF vectorization** and **OpenAI embeddings** to represent item contents. Let's first look at them one by one to explain the tunings and results of each.
 
 #### 2.1 TF-IDF vectorization
-We created a TF-IDF model for our first attempt for the content-based model, which helps highlight unique, meaningful words in documents while filtering out common ones to create a vector for each book, which similarity we then evaluated based on cosine similarty. We tuned the model paramters, like minimum/maximum term frequency for a term over all docs,and n-grams, so combinations of words that are evaluated. For the tuned version, we achieved a precision of up to 5.91%, but basic versions (minimum 1, maximum 40%, 2-grams) achieved an Precision@10 of around 5.79%.
+We created a TF-IDF model for our first attempt for the content-based model, which helps highlight unique, meaningful words in documents while filtering out common ones to create a vector for each book, which similarity we then evaluated based on cosine similarity. We tuned the model parameters, like minimum/maximum term frequency for a term over all docs,and n-grams, so combinations of words that are evaluated. For the tuned version, we achieved a precision of up to 5.91%, but basic versions (minimum 1, maximum 40%, 2-grams) achieved an Precision@10 of around 5.79%.
 
 #### 2.2 OpenAI embeddings
-For this model, we combined all the metadata available into one column, except for certain columns like ISBN numbers and links to book cover images. Thes columns do not really add any context, so we decided to leave them out for the embeddings process. The resulting column was then made into a list to make it ready to be used for the embedding generations. 
+For this model, we combined all the metadata available into one column, except for certain columns like ISBN numbers and links to book cover images. These columns do not really add any context, so we decided to leave them out for the embeddings process. The resulting column was then made into a list to make it ready to be used for the embedding generations. 
 
 The final precision and recall using this model was 4.37% and 26.03%, respectively. This is a lower precision and recall than for the other models, but we believe this can still be a powerful tool if it is combined with other models.
 
 ### 3. Hybrid Models
 It is unlikely that one model, on its own, will lead to the best predictions, as the users preferences might be influenced by many different factors. These preferences might not be accurately explained by only one technique. So, the next step in our process is to explore different combinations of the models above. To figure out the most optimal hybrid model, we build a gridsearch function that tests different weights of each model, to find the most optimal relative contribution of each model. 
 
-Combining both the predictions from the **content-based**, **user-user** and **item-item** models into hybrid models outperformed individual models, demonstrating the value of blending collaborative and content-based evaluations. To our surprise, using the tuned versions of the individual models decreased the precsion of the hybrid models, potentially due to overfitting in these stages. Our best hybrid model based on the untuned individual models achieved a precison of 6.50% and a recall of 32.56%, with 28% user-user, 24% item-item, 22% TF-IDF, and 26% OpenAI embeddings (normalized to 0-1 range). This gave us an overall score of 16.60% precision for the Leadership board (23.05.2025, 20:45), putting us in third place.
+Combining both the predictions from the **content-based**, **user-user** and **item-item** models into hybrid models outperformed individual models, demonstrating the value of blending collaborative and content-based evaluations. To our surprise, using the tuned versions of the individual models decreased the precsion of the hybrid models, potentially due to overfitting in these stages. Our best hybrid model based on the untuned individual models achieved a precison of 6.50% and a recall of 32.56%, with 28% user-user, 24% item-item, 22% TF-IDF, and 26% OpenAI embeddings (normalized to 0-1 range). This gave us an overall score of 16.60% precision for the Leadershipboard (23.05.2025, 20:45), putting us in third place.
 
 ## 🧪 Results and Overview of the Model Performance
 

@@ -95,6 +95,7 @@ For this project, we have explored both collaborative filtering (CF), content-ba
 
 ### Test and Train Split
 In order to...
+Change part about user behaviours
 
 We will now explore each of these in more detail.
 

@@ -1,6 +1,8 @@
-# Building a Book Recommendation System for Library Users
-![Library Overview](images/front_picture_2.png)
+# Building a Book Recommendation System for Library Users  
 ### Team IKEA
+
+
+![Library Overview](images/front_picture_2.png)
 
 ## 🧠 Overview
 
@@ -123,7 +125,7 @@ Content-based models utilizes item metadata and textual features (e.g., descript
 #### 2.1 TF-IDF vectorization
 We created a TF-IDF model for our first attempt for the content-based model, which helps highlight unique, meaningful words in documents while filtering out common ones to create a vector for each book, which similarity we then evaluated based on cosine similarity. We tuned the model parameters, like minimum/maximum term frequency for a term over all docs,and n-grams, so combinations of words that are evaluated. For the tuned version, we achieved a precision of up to 5.91%, but basic versions (minimum 1, maximum 40%, 2-grams) achieved an Precision@10 of around 5.79%.
 
-#### 2.2 OpenAI embeddings
+#### 2.2 OpenAI embeddings [Find code here](code/OpenAI_embeddings.ipynb)
 For this model, we combined all the metadata available into one column, except for certain columns like ISBN numbers and links to book cover images. These columns do not really add any context, so we decided to leave them out for the embeddings process. The resulting column was then made into a list to make it ready to be used for the embedding generations. 
 
 The final precision and recall using this model was 4.37% and 26.03%, respectively. This is a lower precision and recall than for the other models, but we believe this can still be a powerful tool if it is combined with other models.

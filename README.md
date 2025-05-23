@@ -143,8 +143,7 @@ Combining both the predictions from the **content-based**, **user-user** and **i
 | OpenAI Embeddings   |        4.37%      |     26.03%      |
 | Hybrid Model   (untuned)      |       6.50%       |   32.56%        |
 
-
-
+![comparison_models](images/BookSMT_interface.png)
 
 ---
 

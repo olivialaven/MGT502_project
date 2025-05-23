@@ -115,15 +115,13 @@ To see if we could improve the precision, we tried to tune the number of (**k**)
 #### 1.2 Item-to-Item (i2i)
 Another technique we explored was the Item-to-Item CF. This model recommends items similar to those a user has already interacted with, based on shared interaction patterns across users, and also uses **cosine similarity** as the similarity metric. The process here was the same as for the User-to-User model, meaning that we started with a baseline model and then experimenting with tuning the number of neighbours used for the similarity calculations.
 
-In the baseline model, the MAP@10 was 5.56% and the recall 26.40%, and in the tuned model (k=12) it was increased to 5.96% and 28.42%, respectively. We have the same concern here as well, that we might be overfitting our data due to the limited number of observations.
+In the baseline model, the Precision@10 was 5.56% and the recall 26.40%, and in the tuned model (k=12) it was increased to 5.96% and 28.42%, respectively. We have the same concern here as well, that we might be overfitting our data due to the limited number of observations.
 
 ### 2. Content-Based Recommendations
 Content-based models utilizes item metadata and textual features (e.g., descriptions) to compute similarity between items. **Cosine similarity** is also used in these cases to match items to user preferences. For this category of techniques, we mainly focused on **TF-IDF vectorization** and **OpenAI embeddings** to represent item contents. Let's first look at them one by one to explain the tunings and results of each.
 
 #### 2.1 TF-IDF vectorization
-For this model, we tuned...
-
-Resulting MAP@10: X.X%
+We created a TF-IDF model for our first attempt for the content-based model, which helps highlight unique, meaningful words in documents while filtering out common ones to create a vector for each book, which similarity we then evaluated based on cosine similarty. We tuned the model paramters, like minimum/maximum term frequency for a term over all docs,and n-grams, so combinations of words that are evaluated. For the tuned version, we achieved a precision of up to 5.91%, but basic versions (minimum 1, maximum 40%, 2-grams) achieved an Precision@10 of around 5.79%.
 
 #### 2.2 OpenAI embeddings
 For this model, we combined all the metadata available into one column, except for certain columns like ISBN numbers and links to book cover images. Thes columns do not really add any context, so we decided to leave them out for the embeddings process. The resulting column was then made into a list to make it ready to be used for the embedding generations. 
@@ -133,21 +131,18 @@ The final precision and recall using this model was 4.37% and 26.03%, respective
 ### 3. Hybrid Models
 It is unlikely that one model, on its own, will lead to the best predictions, as the users preferences might be influenced by many different factors. These preferences might not be accurately explained by only one technique. So, the next step in our process is to explore different combinations of the models above. To figure out the most optimal hybrid model, we build a gridsearch function that tests different weights of each model, to find the most optimal relative contribution of each model. 
 
-Combining both the predictions from the **content-based**, and tuned **user-user** and **item-item** models resulted in a precision of X.X, and recall of X.X, which is higher than any other model on its own. However, 
+Combining both the predictions from the **content-based**, **user-user** and **item-item** models outperformed individual models, demonstrating the value of blending collaborative and content-based evaluations. To our surprise, the using the tuned version of the individual models decreased the precsion of the models, potentially due to overfitting in these stages. Our best hybrid model based on the untuned individual models achieved a precison of 6.50% and a recall of 32.56%, with 28% user-user, 24% item-item, 22% TF-IDF, and 26% OpenAI embeddings (normalized to 0-1 range). 
 
-- Hybrid models outperformed individual models, demonstrating the value of blending collaborative and content signals.
- 
-However, hybrid models that incorporated the **untuned** i2i and u2u variants performed better overall, suggesting that simpler configurations may generalize better in ensemble settings.
 
 ## 🧪 Evaluation Results
 
 | Model               | Precision@10 | Recall@10 |
 |--------------------|--------------|-----------|
-| User-User CF        |              |           |
-| Item-Item CF        |              |           |
-| TF-IDF Similarity   |              |           |
-| BERT Embeddings     |              |           |
-| Hybrid Model        |              |           |
+| User-User CF (untuned)        |       5.65%      |        29.07%   |
+| Item-Item CF (untuned)      |        5.56%      |     26.40%      |
+| TF-IDF Similarity (untuned)   |          5.79%    |      29.79%     |
+| OpenAI Embeddings   |        4.37%      |     26.03%      |
+| Hybrid Model   (untuned)      |       6.50%       |   32.56%        |
 
 ---
 

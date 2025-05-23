@@ -195,4 +195,7 @@ In the video, we explain:
 - **💻 Interactive App:** A **Streamlit UI** lets users log in, get recommendations (including cold-start fallbacks), view popular/new books, and reserve items.
 
 > This project blends machine learning, user behavior, and enriched metadata to transform a traditional library into a personalized, intelligent reading companion.
+  
+
+Contributions: we both contributed equally to the project
 

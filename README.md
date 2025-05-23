@@ -68,7 +68,7 @@ This limited amount of data could limit our possibilities to create a more preci
   - adding book dimensions
   - adding publication date
 
-...and so on. This additional data was used to later improve our embedding quality and, as a result, recommendation relevance. Although we are getting ahead of ourselves with this, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a seperate file. The code for this can be found ***here***. Addimg the information from the API calls reduced, for example, the number of missing authors from 2,653 to only 789.
+...and so on. This additional data was used to later improve our embedding quality and, as a result, recommendation relevance. Although we are getting ahead of ourselves with this, in order to make it easier to follow along in the process, we decided to put the code for this metadata aquisition and cleaning in a seperate file. The code for this can be found [here](./code/API_calls-ipynb). Adding the information from the API calls reduced, for example, the number of missing authors from 2,653 to only 789.
 
 ### Visualizing the data
 
@@ -80,7 +80,7 @@ The graph above shows that there are some books that seem to be a lot more popul
 
 #### User behaviors
 
-We also noted that a lot of users have very few interactions. For example, 3,737 users (about 48% of all users) have only interacted with 5 or fewer books. 2,445 user have only interacted with 3 items. This means that in our test/train split (using a 80/20 ratio) will mean that we only have two observations in the training dataset that is used for the predictions. In this case, there is also only one "rigth" answer. This is a limitation we will come back to later.
+We also noted that a lot of users have very few interactions. For example, 3,737 users (about 48% of all users) have only interacted with 5 or fewer books. 2,445 user have only interacted with 3 items. This is an interesting observation, which will become relevant for our train/test split later on.
 
 Additionally, we noted that a lot of users have interacted with an item multiple times. There are about 3000 occurances in the dataframe where a user has interacted with the same item twice. There is even an occurance of a user interacting with the same item 60 times. There are also occurances in between these numbers (2-60 interactions for the same item by a user).
 
@@ -93,11 +93,15 @@ We are now at the end of our exploratory data analysis. We will now use our comp
 
 For this project, we have explored both collaborative filtering (CF), content-based recommendations, and a mix between the two. Within the CF models, we have the option to focus on either User-to-User or Item-to-Item. The content-based recommendations models consists of TF-IDF vectorization and OpenAI embeddings. To evaluate and compare these models, we have used 80% of the interactions per user as our training data which we will train the model on. Then, the resulting recommendations we be compared to the "ground truth" - the remaining 20% of the interactions per user. These 20% are our test set. The metrics used are: 1) the mean average precision of the 10 recommendations for each user (MAP@10), and 2) mean average recall of the 10 recommendations for each user (MAR@10).
 
-### Test and Train Split
-In order to...
-Change part about user behaviours
+### 📐 Train/Test Split Strategy
 
-We will now explore each of these in more detail.
+Given that many users have very few interactions (nearly half have five or fewer, and most have only three), we designed a **time-aware, user-specific split** to evaluate our models realistically:
+
+- **80/20 Chronological Split**: For each user, interactions were sorted by timestamp. The first 80% were used for training, and the most recent (at least) 20% were reserved for testing. This ensured that every user had at least one interaction in the test set.
+
+- **Preserving Time Order**: Maintaining chronological order reflects a real-world scenario—predicting future preferences based on past behavior. Although we experimented with cross-validation, we chose the time-based split to preserve temporal integrity, which is essential for evaluating recommendation models realistically.
+
+
 
 ### 1. Collaborative Filtering ([see code section: `Collaborative Filtering`](XXX))
 

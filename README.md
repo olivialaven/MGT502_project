@@ -174,6 +174,7 @@ Username: robertdowneyjr, password: welovevlachos
 - Shows the top 5 most popular books
 - Shows the top 5 most recent books
 - Has a search functionality if you are looking a specific book
+- Allows for reservation of books, which are logged in the basket
 
 ![Screenshot](images/BookSMT_interface.png)
 

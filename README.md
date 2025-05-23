@@ -170,7 +170,7 @@ Username: robertdowneyjr, password: welovevlachos
 
 ## 📹 Video Presentation
 
-🎥 [Watch our 3-minute demo](https://www.youtube.com/...)  
+🎥 [Watch our 6-minute demo](https://www.youtube.com/watch?v=-Q951cxDBKw)  
 In the video, we explain:
 - The problem and why it matters
 - Our methodology and models

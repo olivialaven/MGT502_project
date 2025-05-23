@@ -188,7 +188,7 @@ In the video, we explain:
   - **Content-Based**: TF-IDF and OpenAI embeddings
   - **Hybrid Model**: Blended all approaches for superior performance
 
-- **🔁 Hybrid Wins:** Our best model was a **weighted hybrid** using untuned versions of each base model. Tuned versions overfitted due to sparse data.
+- **🔁 Hybrid Wins:** Our best model was a **weighted hybrid** using untuned versions of each base model. Tuned versions potenitally overfitted due to sparse data.
 
 - **⏱️ Realistic Evaluation:** We used a **time-aware 80/20 split** per user to better reflect real-world recommendation timing and improve evaluation reliability.
 

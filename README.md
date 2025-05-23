@@ -99,7 +99,7 @@ Given that many users have very few interactions (nearly half have five or fewer
 
 - **80/20 Chronological Split**: For each user, interactions were sorted by timestamp. The first 80% were used for training, and the most recent (at least) 20% were reserved for testing. This ensured that every user had at least one interaction in the test set.
 
-- **Preserving Time Order**: Maintaining chronological order reflects a real-world scenario—predicting future preferences based on past behavior. Although we experimented with cross-validation, we chose the time-based split to preserve temporal integrity, which is essential for evaluating recommendation models realistically.
+- **Preserving Time Order**: Maintaining chronological order reflects a real-world scenario of predicting future preferences based on past behavior. Although we experimented with cross-validation, we chose the time-based split to preserve temporal order, which is evaluates the recommendation models more realistically.
 
 
 

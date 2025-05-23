@@ -93,6 +93,9 @@ We are now at the end of our exploratory data analysis. We will now use our comp
 
 For this project, we have explored both collaborative filtering (CF), content-based recommendations, and a mix between the two. Within the CF models, we have the option to focus on either User-to-User or Item-to-Item. The content-based recommendations models consists of TF-IDF vectorization and OpenAI embeddings. To evaluate and compare these models, we have used 80% of the interactions per user as our training data which we will train the model on. Then, the resulting recommendations we be compared to the "ground truth" - the remaining 20% of the interactions per user. These 20% are our test set. The metrics used are: 1) the mean average precision of the 10 recommendations for each user (MAP@10), and 2) mean average recall of the 10 recommendations for each user (MAR@10).
 
+### Test and Train Split
+In order to...
+
 We will now explore each of these in more detail.
 
 ### 1. Collaborative Filtering ([see code section: `Collaborative Filtering`](XXX))

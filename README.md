@@ -89,7 +89,7 @@ Additionally, we noted that a lot of users have interacted with an item multiple
 We are now at the end of our exploratory data analysis. We will now use our complete and cleaned dataset to build a recommendation system!
 
 ---
-## 🛠️ Models and Methods
+## 🛠️ Models and Methods (![Find code here](code/recommender_system_models.ipynb))
 
 For this project, we have explored both collaborative filtering (CF), content-based recommendations, and a mix between the two. Within the CF models, we have the option to focus on either User-to-User or Item-to-Item. The content-based recommendations models consists of TF-IDF vectorization and OpenAI embeddings. To evaluate and compare these models, we have used 80% of the interactions per user as our training data which we will train the model on. Then, the resulting recommendations we be compared to the "ground truth" - the remaining 20% of the interactions per user. These 20% are our test set. The metrics used are: 1) the mean average precision of the 10 recommendations for each user (MAP@10), and 2) mean average recall of the 10 recommendations for each user (MAR@10).
 
@@ -103,7 +103,7 @@ Given that many users have very few interactions (nearly half have five or fewer
 
 
 
-### 1. Collaborative Filtering ([see code section: `Collaborative Filtering`](XXX))
+### 1. Collaborative Filtering
 
 #### 1.1 User-to-User (u2u)
 This is a model that recommends items to a user based on the preferences of similar users. It uses **cosine similarity** as the similarity metric, and uses that as a basis for how to rank the preferences in order to recommend 10 items. Initially, we implemented a baseline model with default parameters, which resulted in a MAP@10 of around 5.65% and a recall of 29.07%. The reason the percision is low is most likely due to the fact that it can not be higher than 10% in most of the cases since there is only 1 "correct" answers in the cases where a user only has interacted with 3 items. If that one item is not captured in our recommendation, the precision is 0. The recall can, however, be higher since if that 1 item is included, the recall would be 100%. This reasoning could explain why the precision is so low, and the recall a lot higher.
@@ -117,7 +117,7 @@ Another technique we explored was the Item-to-Item CF. This model recommends ite
 
 In the baseline model, the MAP@10 was 5.56% and the recall 26.40%, and in the tuned model (k=12) it was increased to 5.96% and 28.42%, respectively. We have the same concern here as well, that we might be overfitting our data due to the limited number of observations.
 
-### 2. Content-Based Recommendations ([see code section: `Content-Based`](XXX))
+### 2. Content-Based Recommendations
 Content-based models utilizes item metadata and textual features (e.g., descriptions) to compute similarity between items. **Cosine similarity** is also used in these cases to match items to user preferences. For this category of techniques, we mainly focused on **TF-IDF vectorization** and **OpenAI embeddings** to represent item contents. Let's first look at them one by one to explain the tunings and results of each.
 
 #### 2.1 TF-IDF vectorization
@@ -130,7 +130,7 @@ For this model, we combined all the metadata available into one column, except f
 
 The final precision and recall using this model was 4.37% and 26.03%, respectively. This is a lower precision and recall than for the other models, but we believe this can still be a powerful tool if it is combined with other models.
 
-### 3. Hybrid Models ([see code section: `Hybrid`](XXX))
+### 3. Hybrid Models
 It is unlikely that one model, on its own, will lead to the best predictions, as the users preferences might be influenced by many different factors. These preferences might not be accurately explained by only one technique. So, the next step in our process is to explore different combinations of the models above. To figure out the most optimal hybrid model, we build a gridsearch function that tests different weights of each model, to find the most optimal relative contribution of each model. 
 
 Combining both the predictions from the **content-based**, and tuned **user-user** and **item-item** models resulted in a precision of X.X, and recall of X.X, which is higher than any other model on its own. However, 

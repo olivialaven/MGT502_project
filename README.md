@@ -174,7 +174,7 @@ Username: olivialaven or danieldieckmann, password: welovevlachos
 - Shows the top 5 most recent books
 - Has a search functionality if you are looking a specific book
 
-![Screenshot](data/BookSMT.png)
+![Screenshot](data/BookSMT_interface.png)
 
 ---
 

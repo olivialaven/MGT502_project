@@ -149,19 +149,6 @@ Combining both the predictions from the **content-based**, **user-user** and **i
 
 ---
 
-## 🌟 Best Model & Interpretation
-
-- The hybrid model outperformed individual models, especially on cold-start users.
-- Examples of “good” recommendations:  
-  - User X → [Book A, Book B, Book C]  
-  - Why it’s good: matches history in genre/subject.
-
-- Examples of “bad” recommendations:  
-  - User Y → [Book D, Book E, Book F]  
-  - Why it’s bad: user prefers fiction, got academic books instead.
-
----
-
 ## 💡 Interface (Streamlit App)
 
 You can try our recommendation system with a simple UI here:  

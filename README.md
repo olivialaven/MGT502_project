@@ -165,7 +165,7 @@ However, hybrid models that incorporated the **untuned** i2i and u2u variants pe
 You can try our recommendation system with a simple UI here:  
 👉 [Try the App](https://booksmt.streamlit.app)
 
-Username: olivialaven or danieldieckmann, password: welovevlachos
+Username: robertdowneyjr, password: welovevlachos
 
 - Input a username and password
 - See top-t book recommendations (with covers!) for that user

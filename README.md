@@ -25,7 +25,6 @@ Our system predicts which books each user is most likely to enjoy and presents t
 - [🎯 Final Leaderboard Score](#-final-leaderboard-score)
 - [💡 Interface (Streamlit App)](#-interface-streamlit-app)
 - [📹 Video Presentation](#-video-presentation)
-- [📌 Key Takeaways](#-key-takeaways)
 
 ---
 ## 📊 Exploratory Data Analysis (EDA)

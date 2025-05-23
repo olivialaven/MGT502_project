@@ -1,6 +1,6 @@
-# Building a Book Recommendation System for Library Users (Team IKEA)
+# Building a Book Recommendation System for Library Users
 ![Library Overview](images/front_picture_2.png)
-
+### Team IKEA
 
 ## 🧠 Overview
 

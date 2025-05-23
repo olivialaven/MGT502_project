@@ -25,6 +25,7 @@ Our system predicts which books each user is most likely to enjoy and presents t
 - [🎯 Final Leaderboard Score](#-final-leaderboard-score)
 - [💡 Interface (Streamlit App)](#-interface-streamlit-app)
 - [📹 Video Presentation](#-video-presentation)
+- [📹 🧾 Key Takeaways](#-key-takeaways)
 
 ---
 ## 📊 Exploratory Data Analysis (EDA)
@@ -175,3 +176,23 @@ In the video, we explain:
 - Our methodology and models
 - Evaluation results
 - A live UI demo
+
+## 🧾 Key Takeaways
+
+- **🎯 Goal Met:** Our system exceeded the leaderboard benchmark of 0.1452, achieving a **Precision@10 of 16.60%**, earning **3rd place**.
+
+- **🧹 Smarter Data, Better Results:** We improved data quality by removing duplicates and enriching item metadata via **Google Books and ISBNdb APIs**, significantly reducing missing values.
+
+- **🧠 Diverse Models Explored:** We tested multiple models:
+  - **Collaborative Filtering**: User-to-User and Item-to-Item (cosine similarity)
+  - **Content-Based**: TF-IDF and OpenAI embeddings
+  - **Hybrid Model**: Blended all approaches for superior performance
+
+- **🔁 Hybrid Wins:** Our best model was a **weighted hybrid** using untuned versions of each base model. Tuned versions overfitted due to sparse data.
+
+- **⏱️ Realistic Evaluation:** We used a **time-aware 80/20 split** per user to better reflect real-world recommendation timing and improve evaluation reliability.
+
+- **💻 Interactive App:** A **Streamlit UI** lets users log in, get recommendations (including cold-start fallbacks), view popular/new books, and reserve items.
+
+> This project blends machine learning, user behavior, and enriched metadata to transform a traditional library into a personalized, intelligent reading companion.
+
